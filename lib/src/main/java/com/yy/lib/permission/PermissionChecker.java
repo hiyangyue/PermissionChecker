@@ -28,28 +28,25 @@ public class PermissionChecker {
         this.activity = activity;
     }
 
-    public PermissionChecker callBack(BasePermissionsCallback callback) {
-        mPermissionsCallback = callback;
-        return this;
-    }
-
     /**
      *  申请单个权限
      * author: yueyang
      **/
-    public PermissionChecker requestPermission(String permission) {
-        return requestPermissionList(new String[]{permission});
+    public PermissionChecker requestPermission(String permission,BasePermissionsCallback callback) {
+        return requestPermissionList(new String[]{permission},callback);
     }
 
     /**
      *  申请多个权限
      * author: yueyang
      **/
-    public PermissionChecker requestPermissionList(String[] permissions) {
+    public PermissionChecker requestPermissionList(String[] permissions,BasePermissionsCallback callback) {
 
         if (permissions == null) {
             throw new IllegalArgumentException("permissions cannot be null");
         }
+
+        mPermissionsCallback = callback;
 
         // 已经获取到所有权限
         if (PermissionHelper.hasPermissions(activity,permissions)) {
@@ -88,9 +85,5 @@ public class PermissionChecker {
                 mPermissionsCallback.onPermissionDefined(definedList);
             }
         }
-    }
-
-    public void onActivityResult() {
-
     }
 }

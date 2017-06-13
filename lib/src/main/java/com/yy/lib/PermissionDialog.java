@@ -35,7 +35,7 @@ public class PermissionDialog {
         this.cancelClickListener = cancelClickListener;
     }
 
-    public AlertDialog show() {
+    private AlertDialog create() {
         return new AlertDialog.Builder(mContext)
                 .setCancelable(isCancelable)
                 .setTitle(title)
@@ -45,11 +45,17 @@ public class PermissionDialog {
                 .show();
     }
 
+    private void show() {
+        AlertDialog alertDialog = create();
+        alertDialog.show();
+    }
+
     public static class Builder {
 
         private Context mContext;
         private String title, message, positiveButtonName, negativeButtonName;
         private boolean isCancelable = false;
+        private boolean isGoToSetting = false;
         private DialogInterface.OnClickListener positiveClickListener;
         private DialogInterface.OnClickListener cancelClickListener;
 
@@ -82,6 +88,11 @@ public class PermissionDialog {
             return this;
         }
 
+        public Builder setGotoSetting(boolean gotoSetting) {
+            this.isGoToSetting = gotoSetting;
+            return this;
+        }
+
         public Builder setPositiveButton(DialogInterface.OnClickListener onClickListener) {
             this.positiveClickListener = onClickListener;
             return this;
@@ -92,19 +103,29 @@ public class PermissionDialog {
             return this;
         }
 
-        public PermissionDialog build() {
+        public void show() {
             title = TextUtils.isEmpty(title) ? "这里是标题" : title;
             message = TextUtils.isEmpty(message) ? "这里是提示" : message;
             positiveButtonName = TextUtils.isEmpty(positiveButtonName) ? "确定" : positiveButtonName;
             negativeButtonName = TextUtils.isEmpty(negativeButtonName) ? "取消" : negativeButtonName;
-            return new PermissionDialog(mContext,
+
+            if (isGoToSetting) {
+                positiveClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // TODO: 2017/6/13 isGoToSetting
+                    }
+                };
+            }
+
+            new PermissionDialog(mContext,
                     title,
                     message,
                     positiveButtonName,
                     negativeButtonName,
                     isCancelable,
                     positiveClickListener,
-                    cancelClickListener);
+                    cancelClickListener).show();
         }
     }
 }

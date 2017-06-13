@@ -9,6 +9,8 @@ import java.util.List;
 public interface BasePermissionsCallback {
 
     void onPermissionDefined(List<String> definedPermissions);
+
     void onAllPermissionDefined();
+
     void onPermissionNeedExplain(List<String> explainPermission);
 }
