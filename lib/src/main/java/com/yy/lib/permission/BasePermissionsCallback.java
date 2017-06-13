@@ -6,8 +6,9 @@ import java.util.List;
  * author : yueyang
  * date : 2017/6/12
  */
-public interface PermissionsCallback {
+public interface BasePermissionsCallback {
 
     void onPermissionDefined(List<String> definedPermissions);
     void onAllPermissionDefined();
+    void onPermissionNeedExplain(List<String> explainPermission);
 }

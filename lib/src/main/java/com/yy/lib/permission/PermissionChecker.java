@@ -14,7 +14,7 @@ import java.util.List;
 public class PermissionChecker {
 
     private Activity activity;
-    private PermissionsCallback permissionsCallback;
+    private BasePermissionsCallback mPermissionsCallback;
 
     private static final int REQUEST_PERMISSIONS = 11131;
 
@@ -28,8 +28,8 @@ public class PermissionChecker {
         this.activity = activity;
     }
 
-    public PermissionChecker callBack(PermissionsCallback callback) {
-        permissionsCallback = callback;
+    public PermissionChecker callBack(BasePermissionsCallback callback) {
+        mPermissionsCallback = callback;
         return this;
     }
 
@@ -59,15 +59,13 @@ public class PermissionChecker {
         List<String> needExplainPermissionList = PermissionHelper.permissionNeedExplain(activity,permissions);
         //如果有不再提示的权限，则提示用户跳转到设置界面，否则执行获取对应的权限
         if (needExplainPermissionList.size() > 0) {
-            // TODO: 2017/6/12  弹出对应的对话框
+            mPermissionsCallback.onPermissionNeedExplain(needExplainPermissionList);
         } else {
             // 获取对应的权限信息
             ActivityCompat.requestPermissions(activity, permissions, REQUEST_PERMISSIONS);
         }
-
         return this;
     }
-
 
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == REQUEST_PERMISSIONS) {
@@ -85,10 +83,14 @@ public class PermissionChecker {
 
             // 所有的权限都已授权
             if (!grantedList.isEmpty() && definedList.isEmpty()) {
-                permissionsCallback.onAllPermissionDefined();
+                mPermissionsCallback.onAllPermissionDefined();
             } else {
-                permissionsCallback.onPermissionDefined(definedList);
+                mPermissionsCallback.onPermissionDefined(definedList);
             }
         }
+    }
+
+    public void onActivityResult() {
+
     }
 }

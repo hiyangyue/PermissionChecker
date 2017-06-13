@@ -13,7 +13,7 @@ import java.util.List;
  * author : yueyang
  * date : 2017/6/12
  */
-public class PermissionHelper {
+class PermissionHelper {
 
     /**
      *  检查是否拥有了必要的权限 , true ： 已拥有， false : 未拥有
