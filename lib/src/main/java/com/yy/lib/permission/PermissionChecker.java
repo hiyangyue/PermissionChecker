@@ -16,7 +16,7 @@ public class PermissionChecker {
     private Activity activity;
     private BasePermissionsCallback mPermissionsCallback;
 
-    private static final int REQUEST_PERMISSIONS = 11131;
+    private int REQUEST_PERMISSIONS = 11131;
 
     private PermissionChecker() {}
 
@@ -53,19 +53,14 @@ public class PermissionChecker {
             return this;
         }
 
-        List<String> needExplainPermissionList = PermissionHelper.permissionNeedExplain(activity,permissions);
-        //如果有不再提示的权限，则提示用户跳转到设置界面，否则执行获取对应的权限
-        if (needExplainPermissionList.size() > 0) {
-            mPermissionsCallback.onPermissionNeedExplain(needExplainPermissionList);
-        } else {
-            // 获取对应的权限信息
-            ActivityCompat.requestPermissions(activity, permissions, REQUEST_PERMISSIONS);
-        }
+        ActivityCompat.requestPermissions(activity, permissions, REQUEST_PERMISSIONS);
         return this;
     }
 
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == REQUEST_PERMISSIONS) {
+
+
             List<String> grantedList = new ArrayList<>();
             List<String> definedList = new ArrayList<>();
 
@@ -74,13 +69,18 @@ public class PermissionChecker {
                 if (PackageManager.PERMISSION_GRANTED == grantResults[i]) {
                     grantedList.add(currentPermission);
                 } else {
-                    definedList.add(currentPermission);
+                    // 用户选择了不再提示
+                    if (!ActivityCompat.shouldShowRequestPermissionRationale(activity, currentPermission)) {
+                        mPermissionsCallback.onPermissionNeedExplain(currentPermission);
+                    } else {
+                        definedList.add(currentPermission);
+                    }
                 }
             }
 
             // 所有的权限都已授权
             if (!grantedList.isEmpty() && definedList.isEmpty()) {
-                mPermissionsCallback.onAllPermissionDefined();
+                mPermissionsCallback.onAllPermissionGranted();
             } else {
                 mPermissionsCallback.onPermissionDefined(definedList);
             }

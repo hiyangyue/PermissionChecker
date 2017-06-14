@@ -10,7 +10,8 @@ public interface BasePermissionsCallback {
 
     void onPermissionDefined(List<String> definedPermissions);
 
-    void onAllPermissionDefined();
+    void onAllPermissionGranted();
 
-    void onPermissionNeedExplain(List<String> explainPermission);
+    void onPermissionNeedExplain(String explainPermission);
+
 }

@@ -14,12 +14,12 @@ public class PermissionCallback implements BasePermissionsCallback {
     }
 
     @Override
-    public void onAllPermissionDefined() {
+    public void onAllPermissionGranted() {
 
     }
 
     @Override
-    public void onPermissionNeedExplain(List<String> explainPermission) {
+    public void onPermissionNeedExplain(String explainPermission) {
 
     }
 }
