@@ -1,4 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="CustomAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <!--按钮颜色-->
+        <item name="colorAccent">@color/theme_color</item>
+        <!--内容颜色-->
+        <item name="android:textColorPrimary">@color/text_gray</item>
+        <!--标题颜色-->
+        <item name="android:textColor">@color/black_dark_lightest</item>
+        <!--背景颜色-->
+        <item name="android:windowBackground">@color/white</item>
+
+        <item name="windowMinWidthMajor">90%</item>
+        <item name="windowMinWidthMinor">90%</item>
+    </style>
 
 </resources>

@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">lib</string>
+    <string name="sure">确定</string>
+    <string name="cancel">取消</string>
+    <string name="request_permission">权限申请</string>
+    <string name="permission_reminder">只有开启权限才能使用该功能哦</string>
+    <string name="not_remind">不再提示</string>
 </resources>

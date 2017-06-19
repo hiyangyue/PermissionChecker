@@ -16,7 +16,7 @@ public class PermissionChecker {
     private Activity activity;
     private BasePermissionsCallback mPermissionsCallback;
 
-    private int REQUEST_PERMISSIONS = 11131;
+    public static final int REQUEST_PERMISSIONS = 11131;
 
     private PermissionChecker() {}
 
@@ -50,6 +50,7 @@ public class PermissionChecker {
 
         // 已经获取到所有权限
         if (PermissionHelper.hasPermissions(activity,permissions)) {
+            mPermissionsCallback.onAllPermissionGranted();
             return this;
         }
 
@@ -59,7 +60,6 @@ public class PermissionChecker {
 
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == REQUEST_PERMISSIONS) {
-
 
             List<String> grantedList = new ArrayList<>();
             List<String> definedList = new ArrayList<>();
